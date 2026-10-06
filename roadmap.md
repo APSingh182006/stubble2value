@@ -1,6 +1,6 @@
 # Stubble → Value
-- [ ] Cinematic visual system and storytelling
-- [ ] Farmer calculator, transparent results and recommendation
-- [ ] Eight reuse options and sortable comparison
-- [ ] Demo buyer map, enquiry and action plan
-- [ ] Verify calculator and discovery on desktop/mobile
+- [x] Cinematic visual system and storytelling
+- [x] Farmer calculator, transparent results and recommendation
+- [x] Eight reuse options and sortable comparison
+- [x] Demo buyer map, enquiry and action plan
+- [x] Verify calculator and discovery on desktop/mobile
