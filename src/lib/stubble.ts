@@ -32,6 +32,7 @@ export function estimate(farm: Farm) {
  const eligible = options.filter(o => residue >= o.min);
  const ranked = [...eligible].sort((a, b) => net(b, residue) - net(a, residue));
  const recommended = ranked[0] ?? options[7];
+  if (!recommended) throw new Error('At least one reuse option is required');
  return { acres, grain, residue, ratio, recommended, low: residue * recommended.low, high: residue * recommended.high, transport: transport(recommended, residue), net: net(recommended, residue) };
 }
 export const transport = (o: ReuseOption, tonnes: number) => tonnes * o.distance * 12;
