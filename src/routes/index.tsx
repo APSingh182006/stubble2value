@@ -1,24 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { ArrowDown, ArrowRight, ArrowUpRight, MapPin, Wheat, Tractor, Factory, Package, IndianRupee, Leaf } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { meta } from '@/components/stubble/shared';
+import { useFarm } from '@/components/stubble/farm-context';
+import paddy from '@/assets/paddy-sunset.jpg';
+import products from '@/assets/straw-products.jpg';
+export const Route = createFileRoute('/')({head:()=>meta('A second life for your harvest','Your paddy straw is a resource. Calculate its potential value and explore alternatives to open burning.'),component:Index});
 function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+ const {farm,setFarm}=useFarm();
+ return <main>
+  <section className="hero"><img className="hero-image" src={paddy} alt="Green and golden paddy fields at sunset in India" width={1920} height={1024}/><div className="hero-content reveal"><div className="eyebrow"><span className="live-dot"/> A second life for every harvest</div><h1>DON’T BURN IT.<br/>TURN IT INTO<br/><span>VALUE.</span></h1><p className="hero-copy">Your paddy residue can become paper, packaging,<br className="hidden md:block"/> fuel, compost, biochar — or extra income.</p><div className="hero-buttons"><Button size="lg" asChild><Link to="/calculator">Calculate my stubble <ArrowUpRight/></Link></Button><Button variant="hero" size="lg" asChild><Link to="/options">See what it can become <ArrowRight/></Link></Button></div></div><div className="hero-foot"><a href="#harvest" className="scroll"><ArrowDown size={15}/> The story doesn’t end at harvest</a><span className="hero-coordinate"><MapPin size={13}/> Rooted in India. Growing possibilities.</span></div></section>
+  <div className="container"><div className="intro-strip"><div><div className="eyebrow mb-2">From residue to resource</div><p className="text-sm">Better for your farm.<br/><span className="muted">Better for what comes next.</span></p></div><div className="strip-metric"><strong>8</strong><span>ways to give straw a second life</span></div><div className="strip-metric"><strong>1 harvest</strong><span>many new possibilities</span></div><div className="strip-metric"><strong>0 waste</strong><span>the future we’re working toward</span></div></div>
+  <section id="harvest" className="section"><div className="story-layout"><div><div className="section-label">01 / A different perspective</div><h2 className="section-heading">Every harvest leaves<br/>something behind.<br/><em>Not everything is waste.</em></h2><p className="muted text-sm leading-7 mt-6">The rice leaves your field. The straw stays. Burning it means lost potential and more pollution. Giving it a second life opens a whole new harvest of possibilities.</p><Button variant="link" className="px-0 mt-5" asChild><Link to="/options">Meet your straw’s next chapter <ArrowUpRight/></Link></Button></div><img className="story-photo" src={products} width={1536} height={1024} loading="lazy" alt="Rice straw transformed into paper, molded packaging, pellets and compost"/></div><div className="journey">{[{icon:Wheat,label:'Paddy straw'},{icon:Tractor,label:'Collection'},{icon:Factory,label:'Processing'},{icon:Package,label:'New products'},{icon:IndianRupee,label:'Farmer income'}].map((item,i)=><div className="journey-step" key={item.label}><item.icon size={24}/><span>{item.label}</span>{i<4&&<ArrowRight size={14} className="hidden md:block ml-3"/>}</div>)}</div></section></div>
+  <section className="section section-band"><div className="container teaser-form"><div><div className="section-label">02 / Discover your potential</div><h2 className="section-heading">Your farm.<br/>Your straw.<br/><em>Your opportunity.</em></h2><p className="muted text-sm leading-7 mt-5 max-w-sm">A few details about your harvest. A clearer picture of what your residue could be worth.</p><p className="text-xs text-gold mt-6 flex items-center gap-2"><Leaf size={14}/> Simple inputs. Transparent estimates.</p></div><div><div className="form-grid"><label><span className="field-label">Farm area</span><input aria-label="Farm area" type="number" min="0.1" max="100000" step="0.1" className="field" value={farm.area} onChange={e=>setFarm({...farm,area:Number(e.target.value)})}/></label><label><span className="field-label">Unit</span><select aria-label="Area unit" className="field" value={farm.unit} onChange={e=>setFarm({...farm,unit:e.target.value as 'acres'|'hectares'})}><option value="acres">Acres</option><option value="hectares">Hectares</option></select></label></div><div className="mt-5"><span className="field-label">Your crop</span><div className="segment">{['Paddy','Wheat','Other'].map(c=><Button key={c} variant="outline" className={farm.crop===c?'selected':''} onClick={()=>setFarm({...farm,crop:c})}><Wheat size={16}/>{c}</Button>)}</div></div><Button size="lg" className="w-full mt-4" asChild><Link to="/calculator">Find my stubble’s value <ArrowUpRight/></Link></Button><p className="assumptions">No sign-up. No promises. Just possibilities — all values are indicative.</p></div></div></section>
+  <section className="final-cta"><img src={paddy} className="hero-image" alt="Sunset over the rice harvest" width={1920} height={1024} loading="lazy"/><div className="container"><div className="eyebrow justify-center">The next chapter is yours</div><h2>THE HARVEST DOESN’T END<br/>WHEN THE RICE LEAVES THE FIELD.</h2><p>Give the straw a second life.</p><Button size="lg" asChild><Link to="/calculator">Calculate my stubble <ArrowUpRight/></Link></Button></div></section>
+ </main>;
 }
