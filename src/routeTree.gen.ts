@@ -14,6 +14,7 @@ import { Route as BuyersRouteImport } from './routes/buyers'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as ImpactRouteImport } from './routes/impact'
 import { Route as OptionsRouteImport } from './routes/options'
+import { Route as ProcessorsRouteImport } from './routes/processors'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +41,11 @@ const OptionsRoute = OptionsRouteImport.update({
   path: '/options',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProcessorsRoute = ProcessorsRouteImport.update({
+  id: '/processors',
+  path: '/processors',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/calculator': typeof CalculatorRoute
   '/impact': typeof ImpactRoute
   '/options': typeof OptionsRoute
+  '/processors': typeof ProcessorsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/calculator': typeof CalculatorRoute
   '/impact': typeof ImpactRoute
   '/options': typeof OptionsRoute
+  '/processors': typeof ProcessorsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,22 @@ export interface FileRoutesById {
   '/calculator': typeof CalculatorRoute
   '/impact': typeof ImpactRoute
   '/options': typeof OptionsRoute
+  '/processors': typeof ProcessorsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/buyers' | '/calculator' | '/impact' | '/options'
+  fullPaths:
+    '/' | '/buyers' | '/calculator' | '/impact' | '/options' | '/processors'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/buyers' | '/calculator' | '/impact' | '/options'
-  id: '__root__' | '/' | '/buyers' | '/calculator' | '/impact' | '/options'
+  to: '/' | '/buyers' | '/calculator' | '/impact' | '/options' | '/processors'
+  id:
+    | '__root__'
+    | '/'
+    | '/buyers'
+    | '/calculator'
+    | '/impact'
+    | '/options'
+    | '/processors'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +94,7 @@ export interface RootRouteChildren {
   CalculatorRoute: typeof CalculatorRoute
   ImpactRoute: typeof ImpactRoute
   OptionsRoute: typeof OptionsRoute
+  ProcessorsRoute: typeof ProcessorsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +134,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OptionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/processors': {
+      id: '/processors'
+      path: '/processors'
+      fullPath: '/processors'
+      preLoaderRoute: typeof ProcessorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +150,7 @@ const rootRouteChildren: RootRouteChildren = {
   CalculatorRoute: CalculatorRoute,
   ImpactRoute: ImpactRoute,
   OptionsRoute: OptionsRoute,
+  ProcessorsRoute: ProcessorsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
